@@ -1,8 +1,7 @@
-# syntax=docker/dockerfile:1
-
-FROM node:20-alpine
-WORKDIR /app
-COPY . .
-RUN yarn install --production
-CMD ["node", "src/index.js"]
-EXPOSE 3000
+FROM ubuntu: latest
+RUN apt update
+RUN apt install nginx -y
+ADD oxer-html /var/www/html
+RUN unlink /etc/nginx/sites-enabled/default
+ADD webapp.conf /etc/nginx/sites-enabled/webapp.conf
+CMD ["nginx", "-g", "daemon off;"]
